@@ -74,6 +74,8 @@ set(sources
 	AV/SimpleSynth.h
 	AV/SourceSink.cpp
 	AV/SourceSink.h
+	common/CommandLineOptions.cpp
+	common/CommandLineOptions.h
 	common/CPUFeatures.cpp
 	common/CPUFeatures.h
 	common/Dialogs.cpp
@@ -89,6 +91,8 @@ set(sources
 	GUI/AudioPreviewer.h
 	GUI/DialogGLInject.cpp
 	GUI/DialogGLInject.h
+	GUI/DialogRecordSchedule.cpp
+	GUI/DialogRecordSchedule.h
 	GUI/ElidedLabel.cpp
 	GUI/ElidedLabel.h
 	GUI/HiddenScrollArea.cpp
@@ -113,11 +117,12 @@ set(sources
 	GUI/ProfileBox.h
 	GUI/VideoPreviewer.cpp
 	GUI/VideoPreviewer.h
+	GUI/WidgetRack.cpp
+	GUI/WidgetRack.h
 	Benchmark.cpp
 	Benchmark.h
 	Global.h
 	Main.cpp
-	Main.h
 	NVidia.cpp
 	NVidia.h
 )
