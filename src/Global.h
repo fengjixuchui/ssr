@@ -67,10 +67,15 @@ along with SimpleScreenRecorder.  If not, see <http://www.gnu.org/licenses/>.
 #include <ctime>
 #include <stdint.h>
 
+#include <fcntl.h>
 #include <pwd.h>
-#include <random>
+#include <strings.h>
+#include <sys/ioctl.h>
 #include <sys/shm.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <termios.h>
 #include <unistd.h>
 
 #include <array>
@@ -79,6 +84,7 @@ along with SimpleScreenRecorder.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <memory>
 #include <mutex>
+#include <random>
 #include <set>
 #include <sstream>
 #include <thread>
@@ -92,10 +98,24 @@ along with SimpleScreenRecorder.  If not, see <http://www.gnu.org/licenses/>.
 #include <X11/extensions/XShm.h>
 #include <X11/extensions/XInput2.h>
 #include <X11/keysym.h>
+#include <X11/keysymdef.h>
 
 // replacement for Qt::WindowTransparentForInput.
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <X11/extensions/shape.h>
+#endif
+
+// replacement for QX11Info::isPlatformX11()
+#if QT_VERSION < QT_VERSION_CHECK(5, 2, 0)
+inline bool IsPlatformX11() {
+	char *v = getenv("XDG_SESSION_TYPE");
+	return (v == NULL || strcasecmp(v, "x11") == 0);
+}
+#else
+inline bool IsPlatformX11() {
+	char *v = getenv("XDG_SESSION_TYPE");
+	return ((v == NULL || strcasecmp(v, "x11") == 0) && QX11Info::isPlatformX11());
+}
 #endif
 
 // undefine problematic Xlib macros
